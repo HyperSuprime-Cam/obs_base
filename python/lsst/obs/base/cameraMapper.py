@@ -1024,7 +1024,7 @@ class CameraMapper(dafPersist.Mapper):
         )
 
 
-def exposureFromImage(image):
+def exposureFromImage(image, logger=None):
     """Generate an Exposure from an image-like object
 
     If the image is a DecoratedImage then also set its WCS and metadata
@@ -1041,8 +1041,13 @@ def exposureFromImage(image):
         # DecoratedImage
         exposure = afwImage.makeExposure(afwImage.makeMaskedImage(image.getImage()))
         metadata = image.getMetadata()
-        wcs = afwImage.makeWcs(metadata, True)
-        exposure.setWcs(wcs)
+        try:
+            wcs = afwImage.makeWcs(metadata, True)
+            exposure.setWcs(wcs)
+        except pexExcept.InvalidParameterError: # raised on failure to create a wcs (and possibly others)
+            if not logger:
+                logger = lsstLog.Log.getLogger("lsst.obs.base.cameraMapper")
+            logger.info("Insufficient information found in metadata to create a valid wcs; wcs not set")
         exposure.setMetadata(metadata)
     elif hasattr(image, "getMaskedImage"):
         # Exposure
