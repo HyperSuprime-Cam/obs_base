@@ -39,6 +39,7 @@ import lsst.afw.table as afwTable
 import lsst.afw.cameraGeom as afwCameraGeom
 import lsst.log as lsstLog
 import lsst.pex.policy as pexPolicy
+import lsst.pex.exceptions as pexExcept
 from .exposureIdInfo import ExposureIdInfo
 from .makeRawVisitInfo import MakeRawVisitInfo
 from lsst.utils import getPackageDir
