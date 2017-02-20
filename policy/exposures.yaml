@@ -28,14 +28,14 @@ deepDiff_matchedExp:
     persistable:   ExposureF
     storage:       FitsStorage
     tables:        'raw'
-deepCoadd_tempExp:
+deepCoadd_directWarp:
     template:    ''
     python:      lsst.afw.image.ExposureF
     persistable: ExposureF
     storage:     FitsStorage
     level:       Skytile
     tables:      'raw'
-deepCoadd_tempExpPsfMatched:
+deepCoadd_psfMatchedWarp:
     template:    ''
     python:      lsst.afw.image.ExposureF
     persistable: ExposureF
