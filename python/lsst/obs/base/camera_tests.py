@@ -38,7 +38,8 @@ class CameraTests(with_metaclass(abc.ABCMeta)):
     def setUp_camera(self,
                      camera_name=None,
                      n_detectors=None,
-                     first_detector_name=None
+                     first_detector_name=None,
+                     camera_size=None
                      ):
         """
         Set up the necessary variables for camera tests.
@@ -55,12 +56,14 @@ class CameraTests(with_metaclass(abc.ABCMeta)):
         """
         fields = ['camera_name',
                   'n_detectors',
-                  'first_detector_name'
+                  'first_detector_name',
+                  'camera_size'
                   ]
         CameraData = collections.namedtuple("CameraData", fields)
         self.camera_data = CameraData(camera_name=camera_name,
                                       n_detectors=n_detectors,
-                                      first_detector_name=first_detector_name
+                                      first_detector_name=first_detector_name,
+                                      camera_size=camera_size
                                       )
 
     def test_iterable(self):
@@ -77,3 +80,5 @@ class CameraTests(with_metaclass(abc.ABCMeta)):
         self.assertEqual(camera.getName(), self.camera_data.camera_name)
         self.assertEqual(len(camera), self.camera_data.n_detectors)
         self.assertEqual(next(iter(camera)).getName(), self.camera_data.first_detector_name)
+        for ccd in camera:
+            self.assertEqual(ccd.getBBox().getDimensions(), self.camera_data.camera_size)
